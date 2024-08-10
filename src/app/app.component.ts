@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +10,5 @@ import { HomeComponent } from './components/home/home.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'tailwind';
+  title = 'MatchUp';
 }
