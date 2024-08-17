@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { EventCardComponent } from './components/event-card/event-card.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-grid',
@@ -53,4 +54,12 @@ export class EventGridComponent {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
     },
   ];
+
+  constructor(private router: Router) {}
+
+  onEventClick(eventId: number) {
+    this.router.navigate(['/event', eventId]);
+  }
+
+  
 }

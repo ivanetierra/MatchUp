@@ -4,5 +4,5 @@ import { EventViewComponent } from './pages/event-view/event-view.component';
 
 export const routes: Routes = [
     {path: '', component:HomeComponent},
-    {path: 'event', component:EventViewComponent}
+    {path: 'event/:id', component:EventViewComponent}
 ];
