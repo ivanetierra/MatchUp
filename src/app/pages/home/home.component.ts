@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BannerComponent } from "./components/banner/banner.component";
 import { EventGridComponent } from "./components/event-grid/event-grid.component";
+import { EventService } from '../../shared/services/event.service';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,7 @@ import { EventGridComponent } from "./components/event-grid/event-grid.component
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent   {
+
 
 }

@@ -1,5 +1,5 @@
 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-6 pb-10">
-  @for (event of eventsList; track $index) {
+  @for (event of (eventsList$ | async) ; track $index) {
   <app-event-card
     [event]="event"
     (click)="onEventClick(event.id)"
