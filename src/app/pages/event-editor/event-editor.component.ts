@@ -86,7 +86,6 @@ export class EventEditorComponent implements OnInit {
 
         console.log('Event created');
         this._eventService.loadEvents(true);
-
         this._router.navigate(['/']);
     } );
   }
