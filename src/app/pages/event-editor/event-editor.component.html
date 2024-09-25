@@ -1,13 +1,104 @@
-<div>
-  <h1></h1>
-  <form [formGroup]="eventForm" class="flex w-full flex-col space-y-8">
+<div class="max-w-4xl mx-auto py-8">
+  <h1 class="text-2xl font-semibold text-gray-800">
+    {{ isEditing ? "Edit Event" : "Create Event" }}
+  </h1>
+
+  <form (submit)="saveEvent()" [formGroup]="eventForm" class="space-y-6 mt-6">
     <div class="flex flex-col">
-      <label class="matchup-label mb-2"> name </label>
+      <label for="name" class="text-sm font-medium text-gray-700"
+        >Event Name</label
+      >
       <input
+        id="name"
+        type="text"
+        formControlName="name"
         placeholder="Event name"
         class="matchup-input"
-        formControlName="name"
       />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="description" class="text-sm font-medium text-gray-700"
+        >Description</label
+      >
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Describe the event"
+        class="matchup-input"
+      ></textarea>
+    </div>
+
+    <div class="flex flex-col">
+      <label for="image" class="text-sm font-medium text-gray-700"
+        >Image URL</label
+      >
+      <input
+        id="image"
+        type="text"
+        formControlName="image"
+        placeholder="Image URL"
+        class="matchup-input"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="date" class="text-sm font-medium text-gray-700">Date</label>
+      <input
+        id="date"
+        type="datetime-local"
+        formControlName="date"
+        class="matchup-input"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="location" class="text-sm font-medium text-gray-700"
+        >Location</label
+      >
+      <input
+        id="location"
+        type="text"
+        formControlName="location"
+        placeholder="Event location"
+        class="matchup-input"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="price" class="text-sm font-medium text-gray-700"
+        >Price (USD)</label
+      >
+      <input
+        id="price"
+        type="number"
+        formControlName="price"
+        placeholder="Enter price"
+        class="matchup-input"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="totalSpots" class="text-sm font-medium text-gray-700"
+        >Total Spots</label
+      >
+      <input
+        id="totalSpots"
+        type="number"
+        formControlName="totalSpots"
+        placeholder="Available spots"
+        class="matchup-input"
+      />
+    </div>
+
+    <div class="flex justify-end">
+      <button
+        type="submit"
+        [disabled]="eventForm.invalid"
+        class="matchup-button"
+      >
+        {{ isEditing ? "Update Event" : "Create Event" }}
+      </button>
     </div>
   </form>
 </div>

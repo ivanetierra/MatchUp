@@ -24,10 +24,7 @@ export class EventService {
   constructor(private _firestore: Firestore, private _eventState: EventState) {}
 
   loadEventById(id: string, force = false): void {
-    if (
-      force
-      || this._eventState.getEventCurrentValue()?.id !== id
-    ) {
+    if (force || this._eventState.getEventCurrentValue()?.id !== id) {
       from(getDoc(doc(this._eventsCollection, id)))
         .pipe(
           filter((docSnap) => docSnap.exists()),
@@ -48,7 +45,7 @@ export class EventService {
       return this._eventState.getEvent$();
     }
 
-  updateEvent(event: Event): Promise<void> {
+  updateEvent(p0: string, event: Event): Promise<void> {
     if (event.id) {
       return setDoc(doc(this._eventsCollection, event.id), event);
     }
@@ -76,5 +73,9 @@ export class EventService {
           this._eventState.setEventsList(eventsList);
         });
     }
+  }
+
+  createEvent(event: Event): Promise<void> {
+    return setDoc(doc(this._eventsCollection), event);
   }
 }
