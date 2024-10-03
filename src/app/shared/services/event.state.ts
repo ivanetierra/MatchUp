@@ -40,13 +40,13 @@ export class EventState {
     return this._eventsList.getValue();
   }
 
-    getEventsListLoading$(): Observable<boolean> {
-        return this._eventsListLoading.asObservable();
-    }
+  getEventsListLoading$(): Observable<boolean> {
+      return this._eventsListLoading.asObservable();
+  }
 
-    setEventsListLoading(eventList: boolean): void {
-        this._eventsListLoading.next(eventList);
-    }
+  setEventsListLoading(eventList: boolean): void {
+      this._eventsListLoading.next(eventList);
+  }
 
 
 

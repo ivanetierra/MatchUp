@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EventService } from '../../shared/services/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, from, take } from 'rxjs';
+import { filter, from, take, tap } from 'rxjs';
 import { Event } from '../../shared/models/event.interface';
 import { routes } from '../../app.routes';
 
@@ -71,22 +71,28 @@ export class EventEditorComponent implements OnInit {
       ...this.eventForm.value,
       id: this.eventForm.value.id ?? ''
     } as Event;
+
     if (this.isEditing) {
-      this._eventService.updateEvent(eventData.id!, eventData).then(() => {
+      this._eventService.updateEvent(eventData).then(() => {
         console.log('Event updated');
         this._eventService.loadEvents(true);
         this._eventService.loadEventById(eventData.id!, true);
-        this._router.navigate(['/event', eventData.id]);
+        this._router.navigate(['/', 'event', eventData.id]);
         
         
       });
-    } else {
+    } else {      
+      console.log('Event created');
       
-      this._eventService.createEvent(eventData).then(() => {
+      this._eventService.updateEvent(eventData).then(() => {
 
-        console.log('Event created');
         this._eventService.loadEvents(true);
-        this._router.navigate(['/']);
+        this._eventService.getEventsList$().pipe(
+          filter((v) => !!v.find((e) => e.id === eventData.id)),
+          take(1)
+        ).subscribe(()=> {
+          this._router.navigate(['/' ,'event' , eventData.id]);
+        });
     } );
   }
   }

@@ -8,7 +8,7 @@ import {
 import { Observable, filter, from, map, take } from 'rxjs';
 import { FirebaseCollections } from '../models/collections.enum';
 import { Event } from '../models/event.interface';
-import { getDocs, query, setDoc } from 'firebase/firestore';
+import { deleteDoc, getDocs, query, setDoc } from 'firebase/firestore';
 import { User } from '../models/user.interface';
 import { EventState } from './event.state';
 
@@ -45,8 +45,12 @@ export class EventService {
       return this._eventState.getEvent$();
     }
 
-  updateEvent(p0: string, event: Event): Promise<void> {
+  updateEvent(event: Event): Promise<void> {
     if (event.id) {
+      return setDoc(doc(this._eventsCollection, event.id), event);
+    } else {
+      event.id = doc(this._eventsCollection).id; 
+      this._eventState.setEvent(event);
       return setDoc(doc(this._eventsCollection, event.id), event);
     }
   }
@@ -75,7 +79,9 @@ export class EventService {
     }
   }
 
-  createEvent(event: Event): Promise<void> {
-    return setDoc(doc(this._eventsCollection), event);
+  deleteEvent(event: Event): Promise<void> {
+    console.log(event);
+    return deleteDoc(doc(this._eventsCollection, event.id)).then(() => this._eventState.cleanEvent());
   }
+    
 }

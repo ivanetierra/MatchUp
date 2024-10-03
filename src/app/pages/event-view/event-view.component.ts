@@ -20,12 +20,22 @@ export class EventViewComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _userService: UserService,
-    private _eventService: EventService
+    private _eventService: EventService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
     const eventId = this._route.snapshot.paramMap.get('id')!;
     this._eventService.loadEventById(eventId);
     this._userService.loadUserById('s9SfNwQiJwyzf4sPLdWX', true);
+  }
+
+  deleteEvent(event: Event): void {
+    this._eventService.deleteEvent(event).then(() => {
+      this._eventService.loadEvents(true);
+      this._router.navigate(['/'])
+    });
+
+
   }
 }
