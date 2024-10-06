@@ -27,7 +27,6 @@ export class UserService {
     if (force 
         // || this._userState.getUserCurrentValue()?.uid !== id
     ) {
-        console.log('consolee');
       from(getDoc(doc(this._usersCollection, id)))
         .pipe(
           filter((docSnap) => docSnap.exists()),

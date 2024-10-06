@@ -22,7 +22,7 @@
         >
           Create an account
         </h1>
-        <form class="space-y-4 md:space-y-6" action="#">
+        <form [formGroup]="registerForm" ((click))="register()" class="space-y-4 md:space-y-6" action="#">
           <div>
             <label
               for="email"
@@ -30,6 +30,7 @@
               >Your email</label
             >
             <input
+              formControlName="email"
               type="email"
               name="email"
               id="email"
@@ -45,6 +46,7 @@
               >Password</label
             >
             <input
+              formControlName="password"
               type="password"
               name="password"
               id="password"
@@ -60,6 +62,7 @@
               >Confirm password</label
             >
             <input
+              formControlName="confirmPassword"
               type="confirm-password"
               name="confirm-password"
               id="confirm-password"

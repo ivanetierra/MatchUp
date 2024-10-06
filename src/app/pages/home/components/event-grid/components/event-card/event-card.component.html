@@ -1,34 +1,25 @@
 <div
-  class="h-full max-w-sm bg-white border border-gray-200 rounded-lg shadow hover:shadow-lg hover:scale-105 cursor-pointer transition-transform duration-300"
->
-  <img
-    class="rounded-t-lg w-full h-48 object-cover"
-    [src]="event.image"
-    alt="Event Image"
-  />
-  <div class="p-5">
-    <h5 class="mb-2 text-xl font-semibold text-gray-900">{{ event.name }}</h5>
-    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-2">
-      {{ event.description }}
-    </p>
-    <p class="mb-2 text-sm text-gray-600">
-      Organizado por: {{ event.organizer }}
-    </p>
-    <div class="flex items-center text-gray-600 mb-2">
+  class="flex h-full cursor-pointer flex-row rounded-lg border border-gray-200 bg-white shadow transition-transform duration-300 hover:scale-105 hover:shadow-lg sm:flex-col">
+  <!-- Event image, positioned on the right for mobile and on top for larger screens -->
+  <div class="order-last mr-3 mt-3 h-28 w-28 flex-none sm:order-first sm:mr-0 sm:mt-0 sm:h-48 sm:w-full">
+    <img [src]="event.image" class="sm: h-full w-full rounded-lg object-cover sm:rounded-b-none sm:rounded-t-lg" alt="Event Image" />
+  </div>
+
+  <!-- Event information on the left for mobile and below the image for larger screens -->
+  <div class="p-3 sm:p-5">
+    <h5 class="mb-2 line-clamp-2 text-xl font-semibold text-gray-900">{{ event.name }}</h5>
+    <p class="mb-3 line-clamp-2 font-normal text-gray-700 dark:text-gray-400">{{ event.description }}</p>
+    <p class="mb-2 text-sm text-gray-600">Hosted by: {{ event.organizer }}</p>
+    <div class="mb-2 flex items-center text-gray-600">
       <mat-icon class="mr-1.5 text-gray-400">calendar_today</mat-icon>
-      {{ event.date | date: "shortDate" }} at
-      {{ event.date | date: "shortTime" }}
+      {{ event.date | date: "shortDate" }} at {{ event.date | date: "shortTime" }}
     </div>
-    <!-- <div class="flex items-center text-gray-600 mb-2">
-      <mat-icon class="mr-1.5 text-gray-400">location_on</mat-icon>
-      {{ event.location }}
-    </div> -->
-    <div class="flex items-center text-gray-600 mb-2">
-      <mat-icon class="mr-1.5 text-gray-400">groups</mat-icon>
+    <div class="mb-2 flex items-center text-gray-600">
+      <mat-icon class="mr-1.5 line-clamp-1 text-gray-400">groups</mat-icon>
       {{ event.going }} going
       <span class="mx-1.5">•</span>
-      <mat-icon class="mr-1.5 text-gray-400">local_activity</mat-icon>
-      {{ event.price === 0 ? "Gratis" : "$" + event.price }}
+      <mat-icon class="mr-1.5 line-clamp-1 text-gray-400">local_activity</mat-icon>
+      {{ event.price === 0 ? "Free" : "$" + event.price }}
     </div>
   </div>
 </div>
