@@ -46,19 +46,4 @@
 
     Navigate to [http://localhost:4200](http://localhost:4200) to view the app.
 
-## Firebase Setup
 
-Make sure to set up your Firebase project and include your Firebase credentials in `environment.ts`. Here is a sample structure:
-
-```typescript
-export const environment = {
-  firebase: {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    appId: 'YOUR_APP_ID'
-  },
-  production: false
-};
