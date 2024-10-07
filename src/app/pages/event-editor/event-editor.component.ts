@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EventService } from '../../shared/services/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { filter, from, take, tap } from 'rxjs';
 import { Event } from '../../shared/models/event.interface';
 import { routes } from '../../app.routes';
@@ -10,7 +10,7 @@ import { routes } from '../../app.routes';
 @Component({
   selector: 'app-event-editor',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './event-editor.component.html',
   styleUrl: './event-editor.component.scss',
 })
