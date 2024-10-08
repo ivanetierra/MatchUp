@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { take } from 'rxjs';
@@ -13,12 +13,14 @@ import { take } from 'rxjs';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
-
-  registerForm = this._fb.group({
-    email: ['', Validators.required],
-    password: ['', Validators.required],
-    confirmPassword: ['', Validators.required]
-  });
+  registerForm: FormGroup = this._fb.group(
+    {
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required]
+    },
+    { validator: this.checkPasswords }
+  );
 
   constructor(
     private _fb: FormBuilder,
@@ -27,6 +29,12 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
+
+  checkPasswords(group: FormGroup) {
+    const password = group.get('password')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { notSame: true };
+  }
 
   register() {
     if (this.registerForm.valid) {
@@ -37,4 +45,15 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  get email() {
+    return this.registerForm.get('email');
+  }
+
+  get password() {
+    return this.registerForm.get('password');
+  }
+
+  get confirmPassword() {
+    return this.registerForm.get('confirmPassword');
+  }
 }
