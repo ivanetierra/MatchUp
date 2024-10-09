@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   wrongCredentials = signal<boolean>(false);
 
   loginForm = this._fb.group({
-    email: ['', Validators.required],
+    email: ['', Validators.required, Validators.email],
     password: ['', Validators.required],
   });
 
@@ -29,11 +29,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login(): void {
+    
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       return;
     }
     
-    console.log('login');
     this.wrongCredentials.set(false);
 
     this._authService
