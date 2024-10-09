@@ -13,9 +13,12 @@ import { take } from 'rxjs';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
+
+  firebaseError: string = '';
+
   registerForm: FormGroup = this._fb.group(
     {
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required]
     },
@@ -41,7 +44,18 @@ export class RegisterComponent implements OnInit {
       this._authService
         .register(this.registerForm.getRawValue())
         .pipe(take(1))
-        .subscribe(() => this.router.navigate(['/']));
+        .subscribe({
+          next: () => this.router.navigate(['/']),
+          error: (error) => {
+            if (error.code === 'auth/email-already-in-use') {
+              this.firebaseError = 'Email is already in use.';
+            } else if (error.code === 'auth/invalid-email') {
+              this.firebaseError = 'Invalid email format.';
+            } else {
+              this.firebaseError = 'An error occurred. Please try again.';
+            }
+          }
+    });
     }
   }
 
