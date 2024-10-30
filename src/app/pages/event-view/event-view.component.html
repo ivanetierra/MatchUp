@@ -1,9 +1,15 @@
 @if (event$ | async; as event) {
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div
-    class="flex flex-col lg:flex-row items-center justify-between space-y-4 lg:space-y-0"
-  >
+<header>
+  <section
+    class="bg-gradient-mask bg-gray-700 bg-[url('https://contents.mediadecathlon.com/p1972651/k$89ea178d1bccbb79521233a6c58dd8f3/1800x0/2226pt1840/3663xcr2664/Les-r%25C3%25A8gles-du-beachvolley.jpg?format=auto')] bg-center bg-no-repeat bg-blend-multiply">
+    <app-navbar></app-navbar>
+    <div class="mx-auto max-w-screen-xl px-4 py-10 text-center md:py-14 lg:py-20"></div>
+  </section>
+</header>
+
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+  <div class="flex flex-col items-center justify-between space-y-4 lg:flex-row lg:space-y-0">
     <div class="flex-1">
       <h1 class="text-4xl font-bold text-gray-800">{{ event?.name }}</h1>
       <p class="mt-2 text-sm text-gray-500">
@@ -14,36 +20,25 @@
     <div>
       <button class="btn btn-primary">Join Event</button>
     </div>
-    <button [routerLink]="['/', 'edit', event.id]" class="matchup-button ms-3">
-      edit
-    </button>
-    <button (click)="deleteEvent(event)" class="matchup-button ms-3">
-      delete
-    </button>
+    <button [routerLink]="['/', 'edit', event.id]" class="matchup-button ms-3">edit</button>
+    <button (click)="deleteEvent(event)" class="matchup-button ms-3">delete</button>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+  <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
     <div class="lg:col-span-2">
-      <img
-        [src]="event?.image"
-        alt="{{ event?.name }}"
-        class="w-full h-64 object-cover rounded-lg shadow-md mb-6"
-      />
+      <img [src]="event?.image" class="mb-6 h-64 w-full rounded-lg object-cover shadow-md" alt="{{ event?.name }}" />
 
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">
-          Event Description
-        </h2>
+      <div class="rounded-lg bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-800">Event Description</h2>
         <p class="text-gray-600">{{ event?.description }}</p>
       </div>
 
-      <div class="bg-white rounded-lg shadow-md p-6 mt-6">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Event Details</h2>
+      <div class="mt-6 rounded-lg bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-800">Event Details</h2>
         <ul class="space-y-4 text-gray-600">
           <li>
             <span class="font-semibold">Date & Time:</span>
-            {{ event?.date | date : "fullDate" }} at
-            {{ event?.date | date : "shortTime" }}
+            {{ event?.date | date : "fullDate" }} at {{ event?.date | date : "shortTime" }}
           </li>
           <li>
             <span class="font-semibold">Location:</span>
@@ -58,53 +53,31 @@
     </div>
 
     <div>
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Attendees</h2>
-        <p class="text-gray-600">
-          {{ event?.going }} out of {{ event?.totalSpots }} spots taken
-        </p>
+      <div class="rounded-lg bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-800">Attendees</h2>
+        <p class="text-gray-600">{{ event?.going }} out of {{ event?.totalSpots }} spots taken</p>
         <div class="mt-4 flex -space-x-2 overflow-hidden">
-          <img
-            class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-            src="https://via.placeholder.com/40"
-            alt="Attendee 1"
-          />
-          <img
-            class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-            src="https://via.placeholder.com/40"
-            alt="Attendee 2"
-          />
-          <img
-            class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-            src="https://via.placeholder.com/40"
-            alt="Attendee 3"
-          />
-          <img
-            class="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-            src="https://via.placeholder.com/40"
-            alt="Attendee 4"
-          />
+          <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://via.placeholder.com/40" alt="Attendee 1" />
+          <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://via.placeholder.com/40" alt="Attendee 2" />
+          <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://via.placeholder.com/40" alt="Attendee 3" />
+          <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://via.placeholder.com/40" alt="Attendee 4" />
         </div>
-        <p class="mt-2 text-sm text-gray-500">
-          and {{ event?.going - 4 }} more...
-        </p>
+        <p class="mt-2 text-sm text-gray-500">and {{ event?.going - 4 }} more...</p>
       </div>
 
-      <div class="bg-white rounded-lg shadow-md p-6 mt-6">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">
-          Share This Event
-        </h2>
+      <div class="mt-6 rounded-lg bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-800">Share This Event</h2>
         <div class="flex space-x-4">
-          <a href="#" class="text-gray-500 hover:text-gray-700">
+          <a class="text-gray-500 hover:text-gray-700" href="#">
             <i class="fab fa-facebook-f"></i>
           </a>
-          <a href="#" class="text-gray-500 hover:text-gray-700">
+          <a class="text-gray-500 hover:text-gray-700" href="#">
             <i class="fab fa-twitter"></i>
           </a>
-          <a href="#" class="text-gray-500 hover:text-gray-700">
+          <a class="text-gray-500 hover:text-gray-700" href="#">
             <i class="fab fa-linkedin-in"></i>
           </a>
-          <a href="#" class="text-gray-500 hover:text-gray-700">
+          <a class="text-gray-500 hover:text-gray-700" href="#">
             <i class="fas fa-link"></i>
           </a>
         </div>

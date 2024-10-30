@@ -1,0 +1,20 @@
+<div class="flex w-full items-center justify-center">
+  <label
+    (files)="filesDropped($event)"
+    class="dark:hover:bg-bray-800 relative flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+    for="dropzone-file"
+    appDrag>
+    <icon *ngIf="currentImageUrl" (click)="deleteImage()" class="absolute right-2 top-2 h-4 w-4 text-red-700" matIcon="delete"></icon>
+    <div *ngIf="currentImageUrl; else uploadForm">
+      <img [src]="currentImageUrl" class="h-full max-h-24 w-full object-contain" />
+    </div>
+    <ng-template #uploadForm>
+      <div class="flex flex-col items-center justify-center px-4 pb-6 pt-5">
+        <icon class="h-6 w-6" matIcon="cloud_upload"></icon>
+        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG or JPG (MAX. 3Mb)</p>
+      </div>
+    </ng-template>
+    <input id="dropzone-file" (change)="selectFile($event)" class="hidden" type="file" />
+  </label>
+</div>

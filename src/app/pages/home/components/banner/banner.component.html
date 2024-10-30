@@ -1,25 +1,10 @@
 <header>
   <section
     class="bg-gray-700 bg-[url('https://contents.mediadecathlon.com/p1972651/k$89ea178d1bccbb79521233a6c58dd8f3/1800x0/2226pt1840/3663xcr2664/Les-r%25C3%25A8gles-du-beachvolley.jpg?format=auto')] bg-center bg-no-repeat bg-blend-multiply">
-    <header class="absolute left-0 top-0 p-3">
-      <a [routerLink]="['/']">
-        <img class="sm:h-18 h-14 w-auto md:h-20 lg:h-28" src="assets/images/m.png" alt="MatchUp Logo" />
-      </a>
-    </header>
+    <app-navbar></app-navbar>
     <div class="mx-auto max-w-screen-xl px-4 py-24 text-center lg:py-56">
       <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl">Create or join Sports events!</h1>
-      <div class="absolute right-5 top-4 flex space-x-3">
-        <a
-          [routerLink]="['/', 'login']"
-          class="inline-flex cursor-pointer items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
-          Log in
-        </a>
-        <a
-          [routerLink]="['/', 'register']"
-          class="inline-flex items-center justify-center rounded-lg bg-green-700 px-4 py-2 text-base font-medium text-white hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900">
-          Register
-        </a>
-      </div>
+
       <p class="mb-8 text-lg font-normal text-gray-300 sm:px-16 lg:px-48 lg:text-xl">
         Whether you're into soccer, basketball, or any sport in between, Matchup connects you with others who share your passion. Join events happening near you
         or create your own and get active with fellow sports enthusiasts
