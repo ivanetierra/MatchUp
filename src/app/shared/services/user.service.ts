@@ -9,48 +9,81 @@ import {
 import { Observable, filter, from, map, take } from 'rxjs';
 import { FirebaseCollections } from '../models/collections.enum';
 import { User } from '../models/user.interface';
+import { Event } from '../models/event.interface';
+import { UserState } from './user.state';
 // import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserService {
-  private _usersCollection = collection(
-    this._firestore,
-    FirebaseCollections.USERS
-  );
+  private _usersCollection = collection(this._firestore, FirebaseCollections.USERS);
 
-  constructor(private _firestore: Firestore) {}
+  private _eventUserCollection = collection(this._firestore, FirebaseCollections.EVENTUSER);
+
+  constructor(
+    private _firestore: Firestore,
+    private _userState: UserState
+  ) {}
 
   loadUserById(id: string, force = false): void {
-    
-    if (force 
-        // || this._userState.getUserCurrentValue()?.uid !== id
+    if (
+      force
+      // || this._userState.getUserCurrentValue()?.uid !== id
     ) {
       from(getDoc(doc(this._usersCollection, id)))
         .pipe(
-          filter((docSnap) => docSnap.exists()),
-          map((docSnap) => docSnap.data()),
+          filter(docSnap => docSnap.exists()),
+          map(docSnap => docSnap.data()),
           take(1)
         )
         .subscribe((user: User) => {
-            console.log(user);
-        //   this._userState.setUser(user);
+          console.log(user);
+          //   this._userState.setUser(user);
         });
     }
   }
 
-//   setStateUser(user: User): void {
-//     this._userState.setUser(user);
-//   }
+  //   setStateUser(user: User): void {
+  //     this._userState.setUser(user);
+  //   }
 
-//   getUser$(): Observable<User> {
-//     return this._userState.getUser$();
-//   }
+  //   getUser$(): Observable<User> {
+  //     return this._userState.getUser$();
+  //   }
 
   updateUser(user: User): Promise<void> {
     if (user.uid) {
       return setDoc(doc(this._usersCollection, user.uid), user);
     }
+  }
+
+  addEventToUser(event: Event, user: User): Promise<void> {
+    console.log(event);
+
+    return setDoc(doc(this._eventUserCollection, user.uid), {
+      [event.id]: true
+    });
+  }
+
+  deleteEventToUser(event: Event, user: User): Promise<void> {
+    return setDoc(doc(this._eventUserCollection, user.uid), {
+      [event.id]: false
+    });
+  }
+
+  loadGoingEventsByUser(user: User): void {
+    from(getDoc(doc(this._eventUserCollection, user.uid)))
+      .pipe(
+        map(docSnap => docSnap.data()),
+        map(events => Object.keys(events))
+      )
+      .subscribe(eventIds => {
+        this._userState.setGoingEvents(eventIds);
+      });
+  }
+
+  getGoingEvents$(): Observable<string[]> {
+    return this._userState.getGoingEvents$();
   }
 }

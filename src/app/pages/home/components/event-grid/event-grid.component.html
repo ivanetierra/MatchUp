@@ -1,5 +1,7 @@
 <div class="grid grid-cols-1 gap-6 px-3 pb-10 sm:grid-cols-2 sm:px-6 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
   @for (event of (eventsList$ | async) ; track $index) {
-  <app-event-card [event]="event" (click)="onEventClick(event.id)"></app-event-card>
+  <a [routerLink]="['/event', event.id]" class="">
+    <app-event-card [event]="event"></app-event-card>
+  </a>
   }
 </div>

@@ -3,51 +3,40 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "../models/user.interface";
 
 @Injectable({ providedIn: 'root' })
-export class EventState {
-  private _event: BehaviorSubject<User> = new BehaviorSubject(null);
-  private _eventsList: BehaviorSubject<User[]> = new BehaviorSubject(null);
-  private _eventsListLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
+export class UserState {
+  private _user: BehaviorSubject<User> = new BehaviorSubject(null);
+  private _goingEvents: BehaviorSubject<string[]> = new BehaviorSubject(null);
 
-  getEvent$(): Observable<User> {
-    return this._event.asObservable();
+  getUser$(): Observable<User> {
+    return this._user.asObservable();
   }
 
-  getEventCurrentValue(): User {
-    return this._event.getValue();
+  getUserCurrentValue(): User {
+    return this._user.getValue();
   }
 
-  setEvent(user: User): void {
-    this._event.next(user);
+  setUser(user: User): void {
+    this._user.next(user);
   }
 
-  cleanEvent(): void {
-    this._event.next(null);
+  cleanUser(): void {
+    this._user.next(null);
+    this._goingEvents.next(null);
   }
 
-  getEventsList$(): Observable<User[]> {
-    return this._eventsList.asObservable();
+  getGoingEvents$(): Observable<string[]> {
+    return this._goingEvents.asObservable();
   }
 
-  setEventsList(eventList: User[]): void {
-    this._eventsList.next(eventList);
+  setGoingEvents(eventIdList: string[]): void {
+    this._goingEvents.next(eventIdList);
   }
 
-  cleanEventsList(): void {
-    this._eventsList.next(null);
+  cleanGoingEvents(): void {
+    this._goingEvents.next(null);
   }
 
-  getEventListCurrentValue(): User[] {
-    return this._eventsList.getValue();
+  getGoingEventsCurrentValue(): string[] {
+    return this._goingEvents.getValue();
   }
-
-  getEventsListLoading$(): Observable<boolean> {
-      return this._eventsListLoading.asObservable();
-  }
-
-  setEventsListLoading(eventList: boolean): void {
-      this._eventsListLoading.next(eventList);
-  }
-
-
-
 }

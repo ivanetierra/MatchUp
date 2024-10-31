@@ -17,10 +17,12 @@
         <span class="font-semibold text-gray-700">{{ event?.organizer }}</span>
       </p>
     </div>
+    @if (userIsNotGoing$ | async) {
     <div>
       <button (click)="joinEvent(event)" class="btn btn-primary">Join Event</button>
     </div>
-    @if (userIsOwner$ | async) {
+
+    } @if (userIsOwner$ | async) {
     <button [routerLink]="['/', 'edit', event.id]" class="matchup-button ms-3">edit</button>
     <button (click)="deleteEvent(event)" class="matchup-button ms-3">delete</button>
 

@@ -13,13 +13,18 @@ import { AuthService } from '../../shared/services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule, NavbarComponent],
   templateUrl: './event-view.component.html',
-  styleUrl: './event-view.component.scss',
+  styleUrl: './event-view.component.scss'
 })
 export class EventViewComponent implements OnInit {
-  event$:Observable<Event> = this._eventService.getEvent$();
-  user$  = this._authService.user$;
-  userIsOwner$:Observable<boolean> = combineLatest([this.event$, this.user$]).pipe(map(([event, user]) => event?.organizerId === user?.uid));
+  event$: Observable<Event> = this._eventService.getEvent$();
+  user$ = this._authService.user$;
+  userIsOwner$: Observable<boolean> = combineLatest([this.event$, this.user$]).pipe(
+    map(([event, user]) => event?.organizerId === user?.uid)
+  );
 
+  userIsNotGoing$ = combineLatest([this._userService.getGoingEvents$(), this.event$]).pipe(
+    map(([goingEvents, event]) => !goingEvents?.includes(event?.id))
+  );
   constructor(
     private _route: ActivatedRoute,
     private _userService: UserService,
@@ -31,18 +36,21 @@ export class EventViewComponent implements OnInit {
   ngOnInit(): void {
     const eventId = this._route.snapshot.paramMap.get('id')!;
     this._eventService.loadEventById(eventId);
+    this.user$.pipe(take(1)).subscribe(user => {
+      this._userService.loadGoingEventsByUser(user);
+    });
   }
 
   deleteEvent(event: Event): void {
     this._eventService.deleteEvent(event).then(() => {
       this._eventService.loadEvents(true);
-      this._router.navigate(['/'])
+      this._router.navigate(['/']);
     });
   }
 
   joinEvent(event: Event): void {
     this.user$.pipe(take(1)).subscribe(user => {
-      this._eventService.addEventToUser(event, user)
+      this._userService.addEventToUser(event, user);
     });
   }
 }
