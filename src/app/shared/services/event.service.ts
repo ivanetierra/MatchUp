@@ -21,6 +21,11 @@ export class EventService {
     FirebaseCollections.EVENTS
   );
 
+  private _eventUserCollection = collection(
+    this._firestore,
+    FirebaseCollections.EVENTUSER
+  );
+
   constructor(private _firestore: Firestore, private _eventState: EventState) {}
 
   loadEventById(id: string, force = false): void {
@@ -82,6 +87,21 @@ export class EventService {
   deleteEvent(event: Event): Promise<void> {
     console.log(event);
     return deleteDoc(doc(this._eventsCollection, event.id)).then(() => this._eventState.cleanEvent());
+  }
+
+
+  addEventToUser(event: Event, user: User): Promise<void> {
+    console.log(event);
+    
+    return setDoc(doc(this._eventUserCollection, user.uid), {
+      [event.id]: true,
+    });
+  }
+
+  deleteEventToUser(event: Event, user: User): Promise<void> {
+    return setDoc(doc(this._eventUserCollection, user.uid), {
+      [event.id]: false,
+    });
   }
     
 }

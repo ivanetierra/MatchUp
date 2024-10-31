@@ -18,7 +18,7 @@
       </p>
     </div>
     <div>
-      <button class="btn btn-primary">Join Event</button>
+      <button (click)="joinEvent(event)" class="btn btn-primary">Join Event</button>
     </div>
     @if (userIsOwner$ | async) {
     <button [routerLink]="['/', 'edit', event.id]" class="matchup-button ms-3">edit</button>

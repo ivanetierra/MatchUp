@@ -38,7 +38,11 @@ export class EventViewComponent implements OnInit {
       this._eventService.loadEvents(true);
       this._router.navigate(['/'])
     });
+  }
 
-
+  joinEvent(event: Event): void {
+    this.user$.pipe(take(1)).subscribe(user => {
+      this._eventService.addEventToUser(event, user)
+    });
   }
 }
