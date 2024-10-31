@@ -8,6 +8,6 @@ export const AuthGuard = () => {
   const router = inject(Router);
   return authService.isLoggedIn$().pipe(
     take(1),
-    tap(isLoggedIn => (!isLoggedIn ? router.navigate(['/', "login"]) : true))
+    tap(isLoggedIn => (isLoggedIn ? true : router.navigate(['/', 'login'])))
   );
 };

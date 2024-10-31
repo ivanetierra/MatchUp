@@ -4,6 +4,21 @@
   </a>
 
   <div class="absolute right-5 top-4 flex space-x-3">
+    @if (user$ | async) {
+    <p>Welcome, {{(user$ | async)?.email}}</p>
+    <a
+      [routerLink]="['/', 'profile']"
+      class="inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
+      <!-- <img class="h-6 w-6" src="assets/images/profile.svg" alt="" /> -->
+      <svg-icon class="h-6 w-6 text-white" icon="profile"></svg-icon>
+    </a>
+
+    <a
+      [routerLink]="['/', 'logout']"
+      class="inline-flex cursor-pointer items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
+      Log out
+    </a>
+    } @else {
     <a
       [routerLink]="['/', 'login']"
       class="inline-flex cursor-pointer items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
@@ -14,5 +29,6 @@
       class="inline-flex items-center justify-center rounded-lg bg-green-700 px-4 py-2 text-base font-medium text-white hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900">
       Register
     </a>
+    }
   </div>
 </nav>

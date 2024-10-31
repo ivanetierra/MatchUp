@@ -4,8 +4,9 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../shared/services/user.service';
 import { EventService } from '../../shared/services/event.service';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, take } from 'rxjs';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-event-view',
@@ -16,19 +17,20 @@ import { NavbarComponent } from "../../shared/components/navbar/navbar.component
 })
 export class EventViewComponent implements OnInit {
   event$:Observable<Event> = this._eventService.getEvent$();
-
+  user$  = this._authService.user$;
+  userIsOwner$:Observable<boolean> = combineLatest([this.event$, this.user$]).pipe(map(([event, user]) => event?.organizerId === user?.uid));
 
   constructor(
     private _route: ActivatedRoute,
     private _userService: UserService,
     private _eventService: EventService,
-    private _router: Router
+    private _router: Router,
+    private _authService: AuthService
   ) {}
 
   ngOnInit(): void {
     const eventId = this._route.snapshot.paramMap.get('id')!;
     this._eventService.loadEventById(eventId);
-    this._userService.loadUserById('s9SfNwQiJwyzf4sPLdWX', true);
   }
 
   deleteEvent(event: Event): void {

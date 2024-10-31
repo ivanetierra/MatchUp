@@ -6,11 +6,13 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { filter, from, take, tap } from 'rxjs';
 import { Event } from '../../shared/models/event.interface';
 import { routes } from '../../app.routes';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-event-editor',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, NavbarComponent],
   templateUrl: './event-editor.component.html',
   styleUrl: './event-editor.component.scss',
 })
@@ -20,7 +22,8 @@ export class EventEditorComponent implements OnInit {
     name: ['', Validators.required],
     description: ['', Validators.required],
     image: [''], // Validators.required
-    organizer: [''],//, Validators.required],
+    organizer: [''],
+    organizerId: ['', Validators.required],
     date: ['', Validators.required],
     location: ['', Validators.required],
     price: [0, Validators.required],
@@ -33,6 +36,7 @@ export class EventEditorComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _eventService: EventService,
+    private _authService: AuthService,
     private _route: ActivatedRoute,
     private _router: Router
   ) {}
@@ -52,7 +56,15 @@ export class EventEditorComponent implements OnInit {
         .subscribe((event) => {
           this.initForm(event);
         });
+    } else {
+      this._authService.user$.pipe(take(1)).subscribe(user => {
+        console.log(user)
+        this.eventForm.controls.organizer.setValue(user.email)
+        this.eventForm.controls.organizerId.setValue(user.uid)
+      })
     }
+
+
   }
 
   initForm(event: Event): void {
@@ -82,15 +94,15 @@ export class EventEditorComponent implements OnInit {
         
       });
     } else {      
-      console.log('Event created');
       
       this._eventService.updateEvent(eventData).then(() => {
-
+        
         this._eventService.loadEvents(true);
         this._eventService.getEventsList$().pipe(
-          filter((v) => !!v.find((e) => e.id === eventData.id)),
+          filter((v) => !!v?.find((e) => e.id === eventData.id)),
           take(1)
         ).subscribe(()=> {
+          console.log('Event created');
           this._router.navigate(['/' ,'event' , eventData.id]);
         });
     } );

@@ -22,8 +22,12 @@ import { User } from '../models/user.interface';
 })
 export class AuthService {
   private _authStateChanged$: ReplaySubject<any> = new ReplaySubject(1);
+ 
+ //state user, where user is saved
   private _user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   user$: Observable<User> = this._user.asObservable();
+  //end state
+
   private _usersCollection = collection(this._firestore, FirebaseCollections.USERS);
   private _isAuthLoading: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(true);
   isAuthLoading$: Observable<Boolean> = this._isAuthLoading.asObservable();
@@ -38,6 +42,8 @@ export class AuthService {
       .pipe(
         distinctUntilChanged(),
         switchMap((user: User) => {
+          console.log("user", user);
+          
           if (user) {
             return from(getDoc(doc(this._usersCollection, user.uid))).pipe(
               filter(docSnap => docSnap.exists()),
@@ -48,6 +54,7 @@ export class AuthService {
         })
       )
       .subscribe((user: User) => {
+        console.log("user collection", user);
         this._user.next(user);
         this._isAuthLoading.next(false);
       });
@@ -117,6 +124,7 @@ export class AuthService {
     signOut(this._auth)
       .then(() => {
         this.router.navigate(['/',this.login]);
+        console.log('logouuuut')
       })
       .catch(error => {
         console.log(error);

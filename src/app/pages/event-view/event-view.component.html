@@ -20,8 +20,11 @@
     <div>
       <button class="btn btn-primary">Join Event</button>
     </div>
+    @if (userIsOwner$ | async) {
     <button [routerLink]="['/', 'edit', event.id]" class="matchup-button ms-3">edit</button>
     <button (click)="deleteEvent(event)" class="matchup-button ms-3">delete</button>
+
+    }
   </div>
 
   <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
