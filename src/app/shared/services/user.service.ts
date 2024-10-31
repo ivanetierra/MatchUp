@@ -58,25 +58,28 @@ export class UserService {
     }
   }
 
-  addEventToUser(event: Event, user: User): Promise<void> {
+  addEventToUser(event: Event, user: User):void {
     console.log(event);
-
-    return setDoc(doc(this._eventUserCollection, user.uid), {
+    setDoc(doc(this._eventUserCollection, user.uid), {
       [event.id]: true
+    }).then(() => {
+      this.loadGoingEventsByUser(user);
     });
   }
 
-  deleteEventToUser(event: Event, user: User): Promise<void> {
-    return setDoc(doc(this._eventUserCollection, user.uid), {
+  deleteEventToUser(event: Event, user: User): void {
+    setDoc(doc(this._eventUserCollection, user.uid), {
       [event.id]: false
-    });
+    }).then(() => {
+      this.loadGoingEventsByUser(user);
+    });;
   }
 
   loadGoingEventsByUser(user: User): void {
     from(getDoc(doc(this._eventUserCollection, user.uid)))
       .pipe(
         map(docSnap => docSnap.data()),
-        map(events => Object.keys(events))
+        map(events =>  Object.keys(events).filter(eventId => events[eventId] === true))
       )
       .subscribe(eventIds => {
         this._userState.setGoingEvents(eventIds);

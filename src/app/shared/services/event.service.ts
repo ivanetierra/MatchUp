@@ -2,33 +2,34 @@ import { Injectable } from '@angular/core';
 import {
   Firestore,
   collection,
+  collectionData,
   doc,
   getDoc,
 } from '@angular/fire/firestore';
 import { Observable, filter, from, map, take } from 'rxjs';
 import { FirebaseCollections } from '../models/collections.enum';
 import { Event } from '../models/event.interface';
-import { deleteDoc, getDocs, query, setDoc } from 'firebase/firestore';
+import { deleteDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { User } from '../models/user.interface';
 import { EventState } from './event.state';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EventService {
-  private _eventsCollection = collection(
-    this._firestore,
-    FirebaseCollections.EVENTS
-  );
+  private _eventsCollection = collection(this._firestore, FirebaseCollections.EVENTS);
 
-  constructor(private _firestore: Firestore, private _eventState: EventState) {}
+  constructor(
+    private _firestore: Firestore,
+    private _eventState: EventState
+  ) {}
 
   loadEventById(id: string, force = false): void {
     if (force || this._eventState.getEventCurrentValue()?.id !== id) {
       from(getDoc(doc(this._eventsCollection, id)))
         .pipe(
-          filter((docSnap) => docSnap.exists()),
-          map((docSnap) => docSnap.data()),
+          filter(docSnap => docSnap.exists()),
+          map(docSnap => docSnap.data()),
           take(1)
         )
         .subscribe((event: Event) => {
@@ -37,19 +38,19 @@ export class EventService {
     }
   }
 
-    setStateEvent(event: Event): void {
-      this._eventState.setEvent(event);
-    }
+  setStateEvent(event: Event): void {
+    this._eventState.setEvent(event);
+  }
 
-    getEvent$(): Observable<Event> {
-      return this._eventState.getEvent$();
-    }
+  getEvent$(): Observable<Event> {
+    return this._eventState.getEvent$();
+  }
 
   updateEvent(event: Event): Promise<void> {
     if (event.id) {
       return setDoc(doc(this._eventsCollection, event.id), event);
     } else {
-      event.id = doc(this._eventsCollection).id; 
+      event.id = doc(this._eventsCollection).id;
       this._eventState.setEvent(event);
       return setDoc(doc(this._eventsCollection, event.id), event);
     }
@@ -60,17 +61,14 @@ export class EventService {
   }
 
   loadEvents(force = false): void {
-
     if (!this._eventState.getEventListCurrentValue()?.length || force) {
       this._eventState.setEventsListLoading(true);
-
-
 
       const q = query(this._eventsCollection);
       from(getDocs(q))
         .pipe(
           take(1),
-          map((querySnapshot) => querySnapshot.docs.map((doc) => doc.data()))
+          map(querySnapshot => querySnapshot.docs.map(doc => doc.data()))
         )
         .subscribe((eventsList: Event[]) => {
           this._eventState.setEventsListLoading(false);
@@ -83,5 +81,15 @@ export class EventService {
     console.log(event);
     return deleteDoc(doc(this._eventsCollection, event.id)).then(() => this._eventState.cleanEvent());
   }
-    
+
+  // Fetch multiple events by their IDs
+  getEventsByIds(eventIds: string[]): Observable<Event[]> {
+    const q = query(this._eventsCollection, where('id', 'in', eventIds));
+    return collectionData(q, { idField: 'id' }) as Observable<Event[]>;
+  }
+
+  getEvenetsByOrganizerId(userId: string): Observable<Event[]> {
+    const q = query(this._eventsCollection, where('organizerId', '==', userId));
+    return collectionData(q, { idField: 'id' }) as Observable<Event[]>;
+  }
 }

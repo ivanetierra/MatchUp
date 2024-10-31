@@ -53,4 +53,10 @@ export class EventViewComponent implements OnInit {
       this._userService.addEventToUser(event, user);
     });
   }
+
+  leaveEvent(event: Event): void {
+    this.user$.pipe(take(1)).subscribe(user => {
+      this._userService.deleteEventToUser(event, user);
+    });
+  }
 }
