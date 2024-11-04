@@ -1,1 +1,41 @@
-{{userEvents$ | async | json}} <span class="text-red-700"> {{ myEvents$ | async | json}}</span>
+<app-header></app-header>
+<div class="container mx-auto p-6">
+  <div class="mb-6 flex items-center justify-between">
+    <h2 class="text-2xl font-semibold">User Profile</h2>
+    @if ((user$ | async)?.uid === (user$ | async)?.uid) {
+    <button (click)="toggleEditMode()" class="matchup-button">Edit Profile</button>
+    }
+  </div>
+
+  @if ((user$ | async); as user$) {
+  <div>
+    <p><strong>Name:</strong> {{ user$.name || user$.email.split('@')[0] }}</p>
+    <p><strong>Email:</strong> {{ user$.email }}</p>
+  </div>
+  }
+
+  <div class="mt-8">
+    <div class="flex space-x-4 border-b border-gray-200">
+      <button [class.active-tab]="selectedTab === 'going'" (click)="selectedTab = 'going'" class="tab">Going Events</button>
+      <button [class.active-tab]="selectedTab === 'hosting'" (click)="selectedTab = 'hosting'" class="tab">Hosting Events</button>
+    </div>
+
+    @if (selectedTab === 'going') {
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+      @for (event of (userEvents$ | async); track $index) {
+      <a [routerLink]="['/event', event.id]" class="">
+        <app-event-card [event]="event"></app-event-card>
+      </a>
+      }
+    </div>
+    } @if (selectedTab === 'hosting') {
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+      @for (event of (myEvents$ | async); track $index) {
+      <a [routerLink]="['/event', event.id]" class="">
+        <app-event-card [event]="event"></app-event-card>
+      </a>
+      }
+    </div>
+    }
+  </div>
+</div>

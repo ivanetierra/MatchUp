@@ -12,7 +12,7 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, CommonModule, LogoutComponent, ProfileComponent, SvgIconComponent],
+  imports: [RouterModule, CommonModule, LogoutComponent, SvgIconComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })

@@ -88,7 +88,7 @@ export class EventService {
     return collectionData(q, { idField: 'id' }) as Observable<Event[]>;
   }
 
-  getEvenetsByOrganizerId(userId: string): Observable<Event[]> {
+  getEventsByOrganizerId(userId: string): Observable<Event[]> {
     const q = query(this._eventsCollection, where('organizerId', '==', userId));
     return collectionData(q, { idField: 'id' }) as Observable<Event[]>;
   }

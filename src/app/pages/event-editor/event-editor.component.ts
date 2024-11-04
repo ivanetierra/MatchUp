@@ -8,11 +8,12 @@ import { Event } from '../../shared/models/event.interface';
 import { routes } from '../../app.routes';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { HeaderComponent } from "../../shared/components/header/header.component";
 
 @Component({
   selector: 'app-event-editor',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule, NavbarComponent],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, NavbarComponent, HeaderComponent],
   templateUrl: './event-editor.component.html',
   styleUrl: './event-editor.component.scss',
 })
@@ -59,7 +60,7 @@ export class EventEditorComponent implements OnInit {
     } else {
       this._authService.user$.pipe(take(1)).subscribe(user => {
         console.log(user)
-        this.eventForm.controls.organizer.setValue(user.email)
+        this.eventForm.controls.organizer.setValue(user.email.split('@')[0]);
         this.eventForm.controls.organizerId.setValue(user.uid)
       })
     }

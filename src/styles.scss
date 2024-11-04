@@ -6,17 +6,17 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,200,0,-25");
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,200,0,-25');
 // @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,200,0,0");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"); //Poppins
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"); //Noto Sans
-@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap"); //Anton
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,200,0,0');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap'); //Poppins
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap'); //Noto Sans
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap'); //Anton
 
 html,
 body {
   @apply bg-white;
-  font-family: "Noto Sans";
+  font-family: 'Noto Sans';
   margin: 0;
   min-height: 100vh;
   &.dark {
@@ -25,12 +25,12 @@ body {
 }
 
 .matchup-button {
-  @apply inline-flex cursor-pointer items-center justify-center rounded-lg bg-orange-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-700   disabled:cursor-not-allowed disabled:bg-slate-500;
+  @apply inline-flex cursor-pointer items-center justify-center rounded-lg bg-orange-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-700 disabled:cursor-not-allowed disabled:bg-slate-500;
   &.warning {
     @apply bg-red-600 hover:bg-red-800 dark:focus:ring-red-800;
   }
   &.neutral {
-    @apply border border-gray-200 bg-white  text-gray-500  hover:bg-gray-100 hover:text-gray-900 focus:z-10 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white;
+    @apply border border-gray-200 bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white;
   }
 }
 
@@ -70,12 +70,12 @@ input {
 }
 
 .matchup-select {
-  @apply block  w-full rounded-lg border p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
+  @apply block w-full rounded-lg border p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
   &:not(.colorPicker) {
     @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
   }
   &.error {
-    @apply border-red-500 bg-red-50 text-red-900 placeholder-red-700  focus:border-red-500  focus:ring-red-500 dark:border-red-500 dark:text-red-500 dark:placeholder-red-500;
+    @apply border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-500 dark:text-red-500 dark:placeholder-red-500;
     option {
       @apply text-gray-900 dark:text-white;
     }
@@ -104,4 +104,9 @@ input {
 
 .matchup-underline {
   @apply h-0.5 w-[120%] bg-orange-400;
+}
+
+.bg-gradient-mask {
+  -webkit-mask-image: linear-gradient(to bottom, black 90%, rgba(0, 0, 0, 0.5) 95%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 90%, rgba(0, 0, 0, 0.5) 95%, transparent 100%);
 }

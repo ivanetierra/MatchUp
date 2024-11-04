@@ -7,11 +7,12 @@ import { EventService } from '../../shared/services/event.service';
 import { combineLatest, map, Observable, take } from 'rxjs';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { AuthService } from '../../shared/services/auth.service';
+import { HeaderComponent } from "../../shared/components/header/header.component";
 
 @Component({
   selector: 'app-event-view',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, NavbarComponent, HeaderComponent],
   templateUrl: './event-view.component.html',
   styleUrl: './event-view.component.scss'
 })
