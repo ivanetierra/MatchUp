@@ -5,12 +5,12 @@
 
   <div class="absolute right-5 top-4 flex space-x-3">
     @if (user$ | async) {
-    <p>Welcome, {{(user$ | async)?.email}}</p>
+    <p class="inline-flex items-center justify-center px-4 py-2 font-normal text-white">Welcome, {{(user$ | async)?.email}}</p>
     <a
       [routerLink]="['/', 'profile']"
       class="inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
       <!-- <img class="h-6 w-6" src="assets/images/profile.svg" alt="" /> -->
-      <svg-icon class="h-6 w-6 text-white" icon="profile"></svg-icon>
+      <mat-icon class="mr-1.5 text-white transition duration-300 hover:text-green-500">person</mat-icon>
     </a>
 
     <a

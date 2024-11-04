@@ -8,11 +8,12 @@ import { CommonModule } from '@angular/common';
 import { LogoutComponent } from '../../../pages/logout/logout.component';
 import { ProfileComponent } from '../../../pages/profile/profile.component';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, CommonModule, LogoutComponent, SvgIconComponent],
+  imports: [RouterModule, CommonModule, LogoutComponent, SvgIconComponent, MatIconModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })

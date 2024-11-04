@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../shared/services/user.service';
 import { EventService } from '../../shared/services/event.service';
-import { combineLatest, map, Observable, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, take } from 'rxjs';
 import { NavbarComponent } from "../../shared/components/navbar/navbar.component";
 import { AuthService } from '../../shared/services/auth.service';
 import { HeaderComponent } from "../../shared/components/header/header.component";
@@ -26,6 +26,10 @@ export class EventViewComponent implements OnInit {
   userIsNotGoing$ = combineLatest([this._userService.getGoingEvents$(), this.event$]).pipe(
     map(([goingEvents, event]) => !goingEvents?.includes(event?.id))
   );
+
+  private _eventAttendees: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  eventAttendees$: Observable<number> = this._eventAttendees.asObservable();
+
   constructor(
     private _route: ActivatedRoute,
     private _userService: UserService,
@@ -40,24 +44,44 @@ export class EventViewComponent implements OnInit {
     this.user$.pipe(take(1)).subscribe(user => {
       this._userService.loadGoingEventsByUser(user);
     });
+    this.getAttendees();
+  }
+
+  getAttendees(): void {
+    this._eventService
+      .getEventAttendeesNumber(this._route.snapshot.paramMap.get('id')!)
+      .pipe(take(1))
+      .subscribe(attendees => {
+        console.log(attendees);
+        
+        this._eventAttendees.next(attendees);
+      });
   }
 
   deleteEvent(event: Event): void {
     this._eventService.deleteEvent(event).then(() => {
       this._eventService.loadEvents(true);
-      this._router.navigate(['/']);
     });
   }
-
+  
   joinEvent(event: Event): void {
-    this.user$.pipe(take(1)).subscribe(user => {
-      this._userService.addEventToUser(event, user);
-    });
-  }
-
+    if (this._eventAttendees.value < event.totalSpots) {
+      this.user$.pipe(take(1)).subscribe(user => {
+        this._userService.addEventToUser(event, user).then(() => {
+          this._userService.loadGoingEventsByUser(user);
+          this.getAttendees();
+        });
+      });
+    } else {
+      alert('Event is full');}
+    }
+  
   leaveEvent(event: Event): void {
     this.user$.pipe(take(1)).subscribe(user => {
-      this._userService.deleteEventToUser(event, user);
+      this._userService.deleteEventToUser(event, user).then(() => {
+this._userService.loadGoingEventsByUser(user);
+        this.getAttendees();
+      });
     });
   }
 }

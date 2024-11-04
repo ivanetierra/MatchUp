@@ -5,8 +5,9 @@ import {
   doc,
   getDoc,
   setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
-import { Observable, filter, from, map, take } from 'rxjs';
+import { Observable, filter, from, map, take, tap } from 'rxjs';
 import { FirebaseCollections } from '../models/collections.enum';
 import { User } from '../models/user.interface';
 import { Event } from '../models/event.interface';
@@ -58,21 +59,25 @@ export class UserService {
     }
   }
 
-  addEventToUser(event: Event, user: User):void {
+  addEventToUser(event: Event, user: User): Promise<void> {
     console.log(event);
-    setDoc(doc(this._eventUserCollection, user.uid), {
-      [event.id]: true
-    }).then(() => {
-      this.loadGoingEventsByUser(user);
-    });
+    return setDoc(
+      doc(this._eventUserCollection, user.uid),
+      {
+        [event.id]: true
+      },
+      { merge: true }
+    );
   }
 
-  deleteEventToUser(event: Event, user: User): void {
-    setDoc(doc(this._eventUserCollection, user.uid), {
-      [event.id]: false
-    }).then(() => {
-      this.loadGoingEventsByUser(user);
-    });;
+  deleteEventToUser(event: Event, user: User): Promise<void> {
+  return setDoc(
+      doc(this._eventUserCollection, user.uid),
+      {
+        [event.id]: false
+      },
+      { merge: true }
+    )
   }
 
   loadGoingEventsByUser(user: User): void {

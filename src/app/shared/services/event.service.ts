@@ -6,10 +6,10 @@ import {
   doc,
   getDoc,
 } from '@angular/fire/firestore';
-import { Observable, filter, from, map, take } from 'rxjs';
+import { Observable, filter, from, map, take, tap } from 'rxjs';
 import { FirebaseCollections } from '../models/collections.enum';
 import { Event } from '../models/event.interface';
-import { deleteDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import { count, deleteDoc, getCountFromServer, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { User } from '../models/user.interface';
 import { EventState } from './event.state';
 
@@ -18,7 +18,7 @@ import { EventState } from './event.state';
 })
 export class EventService {
   private _eventsCollection = collection(this._firestore, FirebaseCollections.EVENTS);
-
+  private _eventUserCollection = collection(this._firestore, FirebaseCollections.EVENTUSER);
   constructor(
     private _firestore: Firestore,
     private _eventState: EventState
@@ -76,6 +76,12 @@ export class EventService {
         });
     }
   }
+
+  getEventAttendeesNumber(eventId: string): Observable<number> {
+    const q = query(this._eventUserCollection, where(eventId, '==', true));
+    return from(getCountFromServer(q)).pipe(
+      map(docSnap => docSnap.data().count),
+)  }
 
   deleteEvent(event: Event): Promise<void> {
     console.log(event);
