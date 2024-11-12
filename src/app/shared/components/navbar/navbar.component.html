@@ -3,21 +3,25 @@
     <img class="sm:h-18 h-14 w-auto md:h-20 lg:h-28" src="assets/images/logo-matchup.png" alt="MatchUp Logo" />
   </a>
 
-  <div class="absolute right-5 top-4 flex space-x-3">
+  <div class="absolute right-5 top-4 flex flex-col items-center space-x-3 sm:flex-row sm:space-x-3">
     @if (user$ | async) {
-    <p class="inline-flex items-center justify-center px-4 py-2 font-normal text-white">Welcome, {{(user$ | async)?.email}}</p>
-    <a
-      [routerLink]="['/', 'profile']"
-      class="inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
-      <!-- <img class="h-6 w-6" src="assets/images/profile.svg" alt="" /> -->
-      <mat-icon class="mr-1.5 text-white transition duration-300 hover:text-green-500">person</mat-icon>
-    </a>
+    <p class="inline-flex items-center justify-center px-4 py-2 font-normal text-white">Welcome, {{ (user$ | async)?.email.split('@')[0] | slice:0:12 }}</p>
 
-    <a
-      [routerLink]="['/', 'logout']"
-      class="inline-flex cursor-pointer items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
-      Log out
-    </a>
+    <div class="sm: order-first flex">
+      <a
+        [routerLink]="['/', 'profile']"
+        class="inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
+        <!-- <img class="h-6 w-6" src="assets/images/profile.svg" alt="" /> -->
+        <mat-icon class="mr-1.5 text-white transition duration-300 hover:text-green-500">person</mat-icon>
+      </a>
+
+      <a
+        [routerLink]="['/', 'logout']"
+        class="inline-flex cursor-pointer items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
+        Log out
+      </a>
+    </div>
+
     } @else {
     <a
       [routerLink]="['/', 'login']"
