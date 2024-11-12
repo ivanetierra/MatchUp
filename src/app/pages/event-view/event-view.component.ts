@@ -61,6 +61,7 @@ export class EventViewComponent implements OnInit {
   deleteEvent(event: Event): void {
     this._eventService.deleteEvent(event).then(() => {
       this._eventService.loadEvents(true);
+      this._router.navigate(['/']);
     });
   }
 
