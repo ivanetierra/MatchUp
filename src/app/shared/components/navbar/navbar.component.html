@@ -3,11 +3,13 @@
     <img class="sm:h-18 h-14 w-auto md:h-20 lg:h-28" src="assets/images/logo-matchup.png" alt="MatchUp Logo" />
   </a>
 
-  <div class="absolute right-5 top-4 flex flex-col items-center space-x-3 sm:flex-row sm:space-x-3">
+  <div class="absolute right-5 top-4 flex flex-col text-end sm:flex-row sm:space-x-3">
     @if (user$ | async) {
-    <p class="inline-flex items-center justify-center px-4 py-2 font-normal text-white">Welcome, {{ (user$ | async)?.email.split('@')[0] | slice:0:12 }}</p>
+    <p class="order-last ml-auto inline-flex px-4 py-2 font-normal text-white sm:order-first sm:ml-0">
+      Welcome, {{ (user$ | async)?.email.split('@')[0] | slice:0:12 }}
+    </p>
 
-    <div class="sm: order-first flex">
+    <div class="flex">
       <a
         [routerLink]="['/', 'profile']"
         class="inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
@@ -23,16 +25,18 @@
     </div>
 
     } @else {
-    <a
-      [routerLink]="['/', 'login']"
-      class="inline-flex cursor-pointer items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
-      Log in
-    </a>
-    <a
-      [routerLink]="['/', 'register']"
-      class="inline-flex items-center justify-center rounded-lg bg-green-700 px-4 py-2 text-base font-medium text-white hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900">
-      Register
-    </a>
+    <div>
+      <a
+        [routerLink]="['/', 'login']"
+        class="inline-flex cursor-pointer items-center justify-center px-4 py-2 text-base font-medium text-white transition duration-300 hover:text-green-500">
+        Log in
+      </a>
+      <a
+        [routerLink]="['/', 'register']"
+        class="inline-flex items-center justify-center rounded-lg bg-green-700 px-4 py-2 text-base font-medium text-white hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-900">
+        Register
+      </a>
+    </div>
     }
   </div>
 </nav>
