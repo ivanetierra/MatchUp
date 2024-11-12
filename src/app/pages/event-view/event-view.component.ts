@@ -20,7 +20,7 @@ export class EventViewComponent implements OnInit {
   event$: Observable<Event> = this._eventService.getEvent$();
   user$ = this._authService.user$;
   userIsOwner$: Observable<boolean> = combineLatest([this.event$, this.user$]).pipe(
-    map(([event, user]) => event?.organizerId === user?.uid)
+    map(([event, user]) => !!user && event?.organizerId === user?.uid)
   );
 
   userIsNotGoing$ = combineLatest([this._userService.getGoingEvents$(), this.event$]).pipe(
@@ -53,7 +53,7 @@ export class EventViewComponent implements OnInit {
       .pipe(take(1))
       .subscribe(attendees => {
         console.log(attendees);
-        
+
         this._eventAttendees.next(attendees);
       });
   }
@@ -63,23 +63,28 @@ export class EventViewComponent implements OnInit {
       this._eventService.loadEvents(true);
     });
   }
-  
+
   joinEvent(event: Event): void {
-    if (this._eventAttendees.value < event.totalSpots) {
-      this.user$.pipe(take(1)).subscribe(user => {
-        this._userService.addEventToUser(event, user).then(() => {
-          this._userService.loadGoingEventsByUser(user);
-          this.getAttendees();
-        });
-      });
-    } else {
-      alert('Event is full');}
-    }
-  
+    this.user$.pipe(take(1)).subscribe(user => {
+      if (user) {
+        if (this._eventAttendees.value < event.totalSpots) {
+          this._userService.addEventToUser(event, user).then(() => {
+            this._userService.loadGoingEventsByUser(user);
+            this.getAttendees();
+          });
+        } else {
+          alert('Event is full');
+        }
+      } else {
+        this._router.navigate(['/', 'login']);
+      }
+    });
+  }
+
   leaveEvent(event: Event): void {
     this.user$.pipe(take(1)).subscribe(user => {
       this._userService.deleteEventToUser(event, user).then(() => {
-this._userService.loadGoingEventsByUser(user);
+        this._userService.loadGoingEventsByUser(user);
         this.getAttendees();
       });
     });

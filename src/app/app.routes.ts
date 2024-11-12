@@ -10,7 +10,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'event/:id', component: EventViewComponent, canActivate: [AuthGuard] },
+  { path: 'event/:id', component: EventViewComponent },
   { path: 'edit/:id', component: EventEditorComponent, canActivate: [AuthGuard] },
   { path: 'add', component: EventEditorComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
