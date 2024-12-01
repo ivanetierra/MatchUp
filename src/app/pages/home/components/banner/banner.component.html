@@ -26,4 +26,21 @@
       </div>
     </div>
   </section>
+  <section class="mt-4 p-10 text-center">
+    <!-- Button for 'See Events' -->
+    <button (click)="scrollToEvents()" class="text-lg font-semibold text-black transition duration-300 hover:text-blue-800">See Events</button>
+
+    <!-- Arrow with click event -->
+    <div (click)="scrollToEvents()" class="mt-2 flex animate-bounce cursor-pointer justify-center">
+      <svg
+        class="h-6 w-6 text-black transition duration-300 hover:text-blue-800"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2.5"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+      </svg>
+    </div>
+  </section>
 </header>
