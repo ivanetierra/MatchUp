@@ -18,13 +18,28 @@
       <ngx-dropzone
         [maxFileSize]="5000000"
         (change)="onFileSelect($event)"
-        class="mt-2 rounded-md border-2 border-dashed border-gray-300 p-4"
+        class="mt-2 rounded-md border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50"
         accept="image/*"
         multiple="false"
         style="height: 200px; overflow: hidden">
+        <!-- Show drag and drop label if no preview -->
+        @if (!filePreview) {
         <ngx-dropzone-label> Drag and drop an image here or click to upload </ngx-dropzone-label>
+        }
+
+        <!-- Image Preview -->
         @if (filePreview) {
-        <img [src]="filePreview" class="h-full w-full rounded-md object-cover" />
+        <div class="relative h-full w-full">
+          <img [src]="filePreview" class="h-full w-full rounded-md object-cover" alt="Preview Image" />
+          <!-- Delete Icon -->
+          <button
+            (click)="clearImage($event)"
+            class="absolute right-2 top-2 z-10 rounded-full bg-white p-2 text-red-900 shadow hover:bg-gray-200"
+            aria-label="Delete Image"
+            type="button">
+            🗑️
+          </button>
+        </div>
         }
       </ngx-dropzone>
     </div>
