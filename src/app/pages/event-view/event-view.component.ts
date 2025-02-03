@@ -62,6 +62,8 @@ export class EventViewComponent implements OnInit {
     this._eventService.deleteEvent(event).then(() => {
       this._eventService.loadEvents(true);
       this._router.navigate(['/']);
+      this.closeDeleteModal();
+
     });
   }
 
@@ -97,7 +99,18 @@ export class EventViewComponent implements OnInit {
     eventLink.select();
     navigator.clipboard.writeText(eventLink.value).then(() => {
       this.linkCopied = true;
-      setTimeout(() => (this.linkCopied = false), 2000); 
+      setTimeout(() => (this.linkCopied = false), 2000);
     });
   }
+
+  showDeleteModal = false;
+
+  openDeleteModal() {
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+  }
+
 }
