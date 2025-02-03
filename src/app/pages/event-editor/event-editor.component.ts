@@ -13,6 +13,8 @@ import { HeaderComponent } from "../../shared/components/header/header.component
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-event-editor',
@@ -49,7 +51,8 @@ export class EventEditorComponent implements OnInit {
     private _authService: AuthService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private http: HttpClient
+    private _http: HttpClient,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -158,7 +161,7 @@ export class EventEditorComponent implements OnInit {
     formData.append('file', file);
     formData.append('upload_preset', environment.cloudinary.uploadPreset);
 
-    this.http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinary.cloudName}/image/upload`, formData).subscribe(
+    this._http.post(`https://api.cloudinary.com/v1_1/${environment.cloudinary.cloudName}/image/upload`, formData).subscribe(
       (response: any) => {
         this.uploadedImageUrl = response.secure_url;
         this.eventForm.patchValue({ image: this.uploadedImageUrl });
@@ -174,5 +177,9 @@ export class EventEditorComponent implements OnInit {
     this.filePreview = null;
     this.uploadedImageUrl = null;
     this.eventForm.patchValue({ image: '' });
+  }
+
+  cancel(): void {
+    this._location.back();  
   }
 }
