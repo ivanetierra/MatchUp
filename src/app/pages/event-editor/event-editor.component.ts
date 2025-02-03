@@ -78,6 +78,9 @@ export class EventEditorComponent implements OnInit {
 
   initForm(event: Event): void {
     this.eventForm.patchValue({ ...event });
+    if (event.image) {
+      this.filePreview = event.image;
+    }
   }
 
   saveEvent(): void {
@@ -159,12 +162,17 @@ export class EventEditorComponent implements OnInit {
       (response: any) => {
         this.uploadedImageUrl = response.secure_url;
         this.eventForm.patchValue({ image: this.uploadedImageUrl });
-        alert('Image uploaded successfully!');
       },
       error => {
         console.error('Error uploading image:', error);
         alert('Failed to upload image. Please try again.');
       }
     );
+  }
+  clearImage(event: MouseEvent): void {
+    event.stopPropagation();
+    this.filePreview = null;
+    this.uploadedImageUrl = null;
+    this.eventForm.patchValue({ image: '' });
   }
 }
