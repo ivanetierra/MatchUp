@@ -5,23 +5,25 @@
   <div class="flex flex-col items-center justify-between space-y-4 lg:flex-row lg:space-y-0">
     <div class="flex-1">
       <h1 class="text-4xl font-bold text-gray-800">{{ event?.name }}</h1>
-      <p class="mt-2 text-sm text-gray-500">
-        Organized by
-        <span class="font-semibold text-gray-700">{{ event?.organizer }}</span>
-      </p>
+      <p class="mt-2 text-sm text-gray-500">Organized by <span class="font-semibold text-gray-700">{{ event?.organizer }}</span></p>
     </div>
     @if (userIsNotGoing$ | async) {
     <div>
-      <button (click)="joinEvent(event)" class="btn btn-primary">Join Event</button>
+      <button
+        (click)="joinEvent(event)"
+        class="rounded-lg bg-gradient-to-r from-green-500 to-blue-500 px-6 py-3 text-lg font-semibold text-white shadow-lg transition-all hover:scale-105">
+        Join Event
+      </button>
     </div>
-    }@else {
+    } @else {
     <div>
-      <button (click)="leaveEvent(event)" class="btn btn-secondary">Leave Event</button>
+      <button (click)="leaveEvent(event)" class="rounded-lg bg-gray-400 px-6 py-3 text-lg font-semibold text-white shadow-md transition hover:bg-gray-500">
+        Leave Event
+      </button>
     </div>
     } @if (userIsOwner$ | async) {
-    <button [routerLink]="['/', 'edit', event.id]" class="matchup-button ms-3">edit</button>
-    <button (click)="deleteEvent(event)" class="matchup-button ms-3">delete</button>
-
+    <button [routerLink]="['/', 'edit', event.id]" class="matchup-button ms-3">Edit</button>
+    <button (click)="deleteEvent(event)" class="matchup-button ms-3">Delete</button>
     }
   </div>
 
@@ -41,14 +43,8 @@
             <span class="font-semibold">Date & Time:</span>
             {{ event?.date | date : "fullDate" }} at {{ event?.date | date : "shortTime" }}
           </li>
-          <li>
-            <span class="font-semibold">Location:</span>
-            {{ event?.location }}
-          </li>
-          <li>
-            <span class="font-semibold">Price:</span>
-            {{ event?.price | currency : "USD" : true }}
-          </li>
+          <li><span class="font-semibold">Location:</span> {{ event?.location }}</li>
+          <li><span class="font-semibold">Price:</span> {{ event?.price | currency : "USD" : true }}</li>
         </ul>
       </div>
     </div>
@@ -57,34 +53,31 @@
       <div class="rounded-lg bg-white p-6 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-gray-800">Attendees</h2>
         <p class="text-gray-600">{{ eventAttendees$ | async }} out of {{ event?.totalSpots }} spots taken</p>
-        <div class="mt-4 flex -space-x-2 overflow-hidden">
-          <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://via.placeholder.com/40" alt="Attendee 1" />
-          <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://via.placeholder.com/40" alt="Attendee 2" />
-          <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://via.placeholder.com/40" alt="Attendee 3" />
-          <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white" src="https://via.placeholder.com/40" alt="Attendee 4" />
-        </div>
-        <p class="mt-2 text-sm text-gray-500">and {{ event?.going - 4 }} more...</p>
       </div>
 
       <div class="mt-6 rounded-lg bg-white p-6 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-gray-800">Share This Event</h2>
-        <div class="flex space-x-4">
-          <a class="text-gray-500 hover:text-gray-700" href="#">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a class="text-gray-500 hover:text-gray-700" href="#">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a class="text-gray-500 hover:text-gray-700" href="#">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a class="text-gray-500 hover:text-gray-700" href="#">
-            <i class="fas fa-link"></i>
-          </a>
+
+        <!-- Copy Link Section -->
+        <div class="flex items-center justify-between rounded-lg border border-gray-300 bg-gray-100 p-3">
+          copy
+          <input
+            #eventLink
+            [value]="'https://matchup.com/event/' + event?.id"
+            class="flex-1 truncate bg-transparent text-sm text-gray-800 focus:outline-none"
+            readonly />
+          <button
+            (click)="copyEventLink(eventLink)"
+            class="ml-3 flex items-center justify-center rounded-md bg-gray-200 p-2 text-gray-600 shadow-sm transition hover:bg-gray-300">
+            <i class="fas fa-clipboard"></i>
+          </button>
         </div>
+
+        @if (linkCopied) {
+        <p class="mt-2 text-sm text-green-600">✔ Link copied to clipboard!</p>
+        }
       </div>
     </div>
   </div>
 </div>
-
 }

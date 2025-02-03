@@ -90,4 +90,14 @@ export class EventViewComponent implements OnInit {
       });
     });
   }
+
+  linkCopied = false;
+
+  copyEventLink(eventLink: HTMLInputElement) {
+    eventLink.select();
+    navigator.clipboard.writeText(eventLink.value).then(() => {
+      this.linkCopied = true;
+      setTimeout(() => (this.linkCopied = false), 2000); 
+    });
+  }
 }
