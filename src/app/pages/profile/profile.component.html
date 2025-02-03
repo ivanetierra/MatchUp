@@ -26,9 +26,25 @@
   </div>
 
   <div class="mt-8">
-    <div class="flex space-x-4 border-b border-gray-200">
-      <button [class.active-tab]="selectedTab === 'going'" (click)="selectedTab = 'going'" class="tab">Going Events</button>
-      <button [class.active-tab]="selectedTab === 'hosting'" (click)="selectedTab = 'hosting'" class="tab">Hosting Events</button>
+    <div class="flex border-b border-gray-300">
+      <button
+        [class.text-blue-600]="selectedTab === 'going'"
+        [class.border-blue-400]="selectedTab === 'going'"
+        [class.text-gray-500]="selectedTab !== 'going'"
+        [class.border-transparent]="selectedTab !== 'going'"
+        (click)="selectedTab = 'going'"
+        class="border-b-2 px-4 py-3 text-lg font-medium transition-all duration-300">
+        Going Events
+      </button>
+      <button
+        [class.text-blue-600]="selectedTab === 'hosting'"
+        [class.border-blue-400]="selectedTab === 'hosting'"
+        [class.text-gray-500]="selectedTab !== 'hosting'"
+        [class.border-transparent]="selectedTab !== 'hosting'"
+        (click)="selectedTab = 'hosting'"
+        class="border-b-2 px-4 py-3 text-lg font-medium transition-all duration-300">
+        Hosting Events
+      </button>
     </div>
 
     @if (selectedTab === 'going') {
