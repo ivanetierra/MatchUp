@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="mx-auto max-w-4xl py-8">
+<div class="mx-auto max-w-4xl px-3 py-8">
   <h1 class="text-2xl font-semibold text-gray-800">{{ isEditing ? "Edit Event" : "Create Event" }}</h1>
 
   <form [formGroup]="eventForm" (submit)="saveEvent()" class="mt-6 space-y-6">
