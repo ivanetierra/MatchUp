@@ -28,7 +28,7 @@
   <div class="mt-8">
     <div class="flex border-b border-gray-300">
       <button
-        [class.text-blue-600]="selectedTab === 'going'"
+        [class.text-blue-700]="selectedTab === 'going'"
         [class.border-blue-400]="selectedTab === 'going'"
         [class.text-gray-500]="selectedTab !== 'going'"
         [class.border-transparent]="selectedTab !== 'going'"
@@ -37,7 +37,7 @@
         Going Events
       </button>
       <button
-        [class.text-blue-600]="selectedTab === 'hosting'"
+        [class.text-blue-700]="selectedTab === 'hosting'"
         [class.border-blue-400]="selectedTab === 'hosting'"
         [class.text-gray-500]="selectedTab !== 'hosting'"
         [class.border-transparent]="selectedTab !== 'hosting'"
@@ -49,19 +49,23 @@
 
     @if (selectedTab === 'going') {
     <div class="grid grid-cols-1 gap-6 pb-10 pt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-      @for (event of (userEvents$ | async); track $index) {
-      <a [routerLink]="['/event', event.id]" class="">
+      @if ((userEvents$ | async)?.length === 0) {
+      <p class="px-4 text-gray-500">You have not joined any events yet.</p>
+      } @else { @for (event of (userEvents$ | async); track $index) {
+      <a [routerLink]="['/event', event.id]">
         <app-event-card [event]="event"></app-event-card>
       </a>
-      }
+      } }
     </div>
     } @if (selectedTab === 'hosting') {
     <div class="grid grid-cols-1 gap-6 pb-10 pt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-      @for (event of (myEvents$ | async); track $index) {
-      <a [routerLink]="['/event', event.id]" class="">
+      @if ((myEvents$ | async)?.length === 0) {
+      <p class="px-4 text-gray-500">You have not hosted any events yet.</p>
+      } @else { @for (event of (myEvents$ | async); track $index) {
+      <a [routerLink]="['/event', event.id]">
         <app-event-card [event]="event"></app-event-card>
       </a>
-      }
+      } }
     </div>
     }
   </div>
